@@ -1,7 +1,8 @@
 def bubble_sort(bubble)
   length = bubble.size
-  loop do 
-    return p bubble if length <= 1
+  loop do
+    return print bubble if length <= 1
+
     for i in 1..length - 1
       if bubble[i - 1] > bubble[i]
         temp = bubble[i - 1]
