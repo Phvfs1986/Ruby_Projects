@@ -1,12 +1,12 @@
 def substrings(string, dictionary)
-  dictionary.reduce(Hash.new(0)) do |result, word|
+  hash = {}
+  dictionary.each do |word|
     if string.include?(word)
-      result[word] += 1
+      hash[word] = hash[word].nil? ? 1 : hash[word] + 1
     end
-    result
   end
+  hash
 end
-
 
 dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
 
