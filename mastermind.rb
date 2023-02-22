@@ -12,11 +12,12 @@ end
 # this class determines what the computer player can do
 class ComputerPlayer
   include Colors
-  attr_accessor :code
+  attr_accessor :code, :cpu_guess_array
 
   def initialize
     @name = 'Computer'
     @code = select_color.sample(4)
+    @cpu_guess_array = []
   end
 
   def shuffle_code
@@ -84,30 +85,38 @@ class Game
     end
   end
 
-  def play_round(cpu, human)
+  def play_game(cpu, human)
     puts "\nThe colors avaible are: #{cpu.colors.join(', ')}"
     puts "You have to guess in what order the colors are in the code.\nThe code consists of 4 colors. Good luck!\n"
     choice = 'y'
     while choice.include?('y')
-      cpu.shuffle_code
-      @turns = 0
-      while @turns < 12
-        human.clear_guesses
-        guesses = 0
-        puts "\nGuess the 4 colors"
-        while guesses < 4
-          print "#{guesses + 1}: "
-          human.colors_guess(gets.chomp.downcase)
-          guesses += 1
-        end
-        puts ''
-        win_con(cpu, human)
-        @turns += 1
-      end
-      puts winner_message(human)
+      turns_count(cpu, human)
       puts "\nPlay again? (Y/N)"
       choice = gets.chomp.downcase
     end
+  end
+
+  def turns_count(cpu, human)
+    cpu.shuffle_code
+    @turns = 0
+    while @turns < 12
+      round(cpu, human)
+      @turns += 1
+    end
+    puts winner_message(human)
+  end
+
+  def round(cpu, human)
+    human.clear_guesses
+    guesses = 0
+    puts "\nGuess the 4 colors"
+    while guesses < 4
+      print "#{guesses + 1}: "
+      human.colors_guess(gets.chomp.downcase)
+      guesses += 1
+    end
+    puts ''
+    win_con(cpu, human)
   end
 
   def winner_message(human)
@@ -127,6 +136,6 @@ human = HumanPlayer.new(human_name)
 game = Game.new
 
 puts "\nLet the game begin!\nYou have 12 rounds to win! or else...\n"
-game.play_round(cpu, human)
+game.play_game(cpu, human)
 
 puts "\nThanks for playing! Bye!\n\n"
