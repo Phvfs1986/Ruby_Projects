@@ -85,15 +85,14 @@ class Game
     puts "\nThe colors avaible are: #{mastermind.select_color}\n"
     if human_choice == 'guesser'
       puts "You have to guess in what order the colors are in the code.\nThe code consists of 4 colors. Good luck!\n"
-      turns_count(mastermind, guesser)
     else
       puts "#{mastermind.name}, choose a 4 color code for the computer to guess."
-      for i in 1..4 do
+      (1..4).each do |i|
         print "#{i}: "
         mastermind.code.push(gets.chomp.downcase)
       end
-      turns_count(mastermind, guesser)
     end
+    turns_count(mastermind, guesser)
   end
 
   def turns_count(mastermind, guesser)
@@ -124,8 +123,6 @@ class Game
     end
   end
 
-  ################################
-
   def computer_guesser(mastermind, guesser)
     not_in_code = []
     avaible_colors = guesser.colors
@@ -145,7 +142,6 @@ class Game
     guesser.guesses = right_guesses
     win_con(mastermind, guesser)
   end
-  #############################
 
   def winner_message(guesser)
     human_message = "\n#{guesser.name} wins! Humanity triumphs once again!\n"
