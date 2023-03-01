@@ -1,0 +1,16 @@
+---
+guess_array:
+- "n"
+- "y"
+guess: save
+word:
+- d
+- e
+- p
+- e
+- "n"
+- d
+- i
+- "n"
+- g
+tries: 2

@@ -17,7 +17,7 @@ class Hangman
     content = File.readlines('google-10000-english-no-swears.txt')
     word = ''
     word = content.sample while word.length <= 5 && word.length <= 12
-    word.delete("\n").split('')
+    word.strip!.split('')
   end
 
   def messages(condition)
@@ -42,6 +42,14 @@ class Hangman
   end
 
   def round
+    puts "Please select an option:\n1: New Game\n2: Load Game"
+    selection = gets.chomp.downcase
+    case selection
+    when '1'
+      puts 'Game Start!'
+    when '2'
+      load_game
+    end
     while tries < 10
       get_input
       win_or_lose
@@ -51,15 +59,16 @@ class Hangman
   end
 
   def get_input
-    print 'Guess a letter: '
+    print "Guess a letter (or write 'SAVE' to save your game): "
     @guess = gets.chomp.downcase
+    save_game if @guess == 'save'
     while guess_array.include?(guess)
       messages(0)
-      print 'Guess a letter: '
+      print "Guess a letter (or write 'SAVE' to save your game): "
       @guess = gets.chomp.downcase
     end
-    word.include?(guess) ? messages(1) : messages(2)
     guess_array << guess
+    word.include?(guess) ? messages(1) : messages(2)
   end
 
   def win_or_lose
@@ -102,6 +111,38 @@ class Hangman
     @guess_array = []
     @word = word_generation
     round
+  end
+
+  def save_game
+    puts 'Game saved!'
+    File.open('hangman.yml', 'w') { |file| file.write save_to_yaml }
+    get_input
+  end
+
+  def save_to_yaml
+    YAML.dump(
+      'guess_array' => @guess_array,
+      'guess' => @guess,
+      'word' => @word,
+      'tries' => @tries
+    )
+  end
+
+  def load_game
+    file = YAML.safe_load(File.read('hangman.yml'))
+    @guess_array = file['guess_array']
+    @guess = file['guess']
+    @word = file['word']
+    @tries = file['tries']
+    load_game_help
+  end
+
+  def load_game_help
+    puts 'Details from last game:'
+    puts "Guesses: #{guess_array}"
+    puts "Turns: #{tries}"
+    puts 'Secret word:'
+    reveal_or_not
   end
 end
 
