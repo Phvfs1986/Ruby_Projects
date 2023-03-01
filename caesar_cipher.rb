@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def caesar_cipher(string, shift)
   letters = string.split(//)
   letters.each do |letter|

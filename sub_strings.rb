@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def substrings(string, dictionary)
   hash = {}
   dictionary.each do |word|
@@ -8,6 +10,6 @@ def substrings(string, dictionary)
   hash
 end
 
-dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
+dictionary = %w[below down go going horn how howdy it i low own part partner sit]
 
 puts substrings("Howdy partner, sit down! How's it going?", dictionary)

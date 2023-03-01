@@ -46,12 +46,11 @@ class Board
 
   def check_diagonal
     center = @board[1][1]
-    if center == 'X' || center == 'O'
-      if @board[0][0] && @board[2][2] == center
-        puts "Winner is #{center}!"
-        @turns = 10
-      end
-    end
+    return unless %w[X O].include?(center)
+    return unless @board[0][0] && @board[2][2] == center
+
+    puts "Winner is #{center}!"
+    @turns = 10
   end
 
   def show_board

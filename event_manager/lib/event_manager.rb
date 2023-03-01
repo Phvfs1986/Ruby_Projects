@@ -14,7 +14,7 @@ def legislators_by_zipcode(zipcode)
       levels: 'country',
       roles: %w[legislatorUpperBody legislatorLowerBody]
     ).oficials
-  rescue
+  rescue StandardError
     'You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials'
   end
 end
@@ -84,6 +84,6 @@ contents.each do |row|
   save_thank_you_letter(id, form_letter)
 end
 puts "Best hours and days for ads:\nBetween:"
-peak_hours.each { |k, v| puts k if v == peak_hours.values.max}
+peak_hours.each { |k, v| puts k if v == peak_hours.values.max }
 print 'On '
-peak_days.each { |k, v| puts "#{k}s" if v == peak_days.values.max}
+peak_days.each { |k, v| puts "#{k}s" if v == peak_days.values.max }
