@@ -11,6 +11,7 @@ class Hangman
     @guess = ''
     @word = word_generation
     @tries = 0
+    round
   end
 
   def word_generation
@@ -22,34 +23,30 @@ class Hangman
 
   def messages(condition)
     case condition
-    when 0
-      puts "\nYou already guessed '#{guess}', try again!"
-    when 1
-      puts "\n'#{guess}' was correct!"
-    when 2
-      puts "\n'#{guess}' was incorrect!"
-    when 3
-      puts "\nYou have #{9 - tries} tries left!"
-    when 4
-      puts "\nYou won! The word was '#{word.join('').capitalize}'"
-    when 5
-      puts "\nYou guesses #{tries + 1} times! You lose!\nThe word was '#{word.join('').capitalize}'"
-    when 6
-      print "\nWanna play again? (Y/N): "
-    when 7
-      puts "\nThanks for playing! Bye!"
+    when 0 then puts "\nYou already guessed '#{guess}', try again!"
+    when 1 then puts "\n'#{guess}' was correct!"
+    when 2 then puts "\n'#{guess}' was incorrect!"
+    when 3 then puts "\nYou have #{9 - tries} tries left!"
+    when 4 then puts "\nYou won! The word was '#{word.join('').capitalize}'"
+    when 5 then puts "\nYou guesses #{tries + 1} times! You lose!\nThe word was '#{word.join('').capitalize}'"
+    when 6 then print "\nWanna play again? (Y/N): "
+    when 7 then puts "\nThanks for playing! Bye!"
+    end
+  end
+
+  def menu(selection)
+    case selection
+    when '1' then puts 'Game Start!'
+    when '2'
+      puts 'Game Loaded!'
+      load_game
     end
   end
 
   def round
     puts "Please select an option:\n1: New Game\n2: Load Game"
     selection = gets.chomp.downcase
-    case selection
-    when '1'
-      puts 'Game Start!'
-    when '2'
-      load_game
-    end
+    menu(selection)
     while tries < 10
       get_input
       win_or_lose
@@ -146,5 +143,4 @@ class Hangman
   end
 end
 
-game = Hangman.new
-game.round
+Hangman.new
