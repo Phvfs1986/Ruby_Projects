@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 # this class handles all the game operations
 class Game
+  attr_accessor :turn_count
+
   def player_turn(player)
     loop do
       @p_choice = verify_input(player_input(player))
@@ -40,10 +44,20 @@ class Game
     board.map(&:reverse).transpose
   end
 
+  def check_tie(board)
+    board.flatten.all? { |element| element != '.' }
+  end
+
   def game_over?(board)
-    win_con(board) ||
-      win_con(board.transpose) ||
-      win_con(check_diagonal(board)) ||
-      win_con(check_diagonal(diagonal_inverse(board)))
+    win_con(board) || win_con(board.transpose) ||
+      win_con(check_diagonal(board)) || win_con(check_diagonal(diagonal_inverse(board)))
+  end
+
+  def game_result(board, player)
+    if check_tie(board)
+      "It's a tie!"
+    else
+      "#{player.name} Wins!"
+    end
   end
 end
