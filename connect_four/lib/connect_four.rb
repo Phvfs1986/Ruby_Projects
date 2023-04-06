@@ -1,25 +1,29 @@
 # frozen_string_literal: true
 
 # hahaha
-require './player'
-require './game'
+require './lib/player'
+require './lib/game'
 
+# board class handles all board display
 class Board
   attr_reader :board, :p_choice, :game
-  attr_accessor :last_piece_played, :last_color_played, :player_one, :player_two
+  attr_accessor :payer_one, :player_two, :symbol_array
 
   def initialize
-    @board = Array.new(6) { Array.new(7) { 'O' } }
+    @board = Array.new(6) { Array.new(7) { '.' } }
+    @symbol_array = []
     @player_one = Player.new
     @player_two = Player.new
     @game = Game.new
-    puts "Player 1 choose your symbol"
+    puts 'Player 1 choose your symbol'
     @player_one.symbol = gets.chomp
-    puts "Player 1 choose your name"
+    @symbol_array << @player_one.symbol
+    puts 'Player 1 choose your name'
     @player_one.name = gets.chomp
-    puts "Player 2 choose your symbol"
+    puts 'Player 2 choose your symbol'
     @player_two.symbol = gets.chomp
-    puts "Player 2 choose your name"
+    @symbol_array << @player_two.symbol
+    puts 'Player 2 choose your name'
     @player_two.name = gets.chomp
   end
 
@@ -44,35 +48,32 @@ class Board
   def start_game
     turn_count = 0
     loop do
+      player = @player_one if turn_count.even?
+      player = @player_two if turn_count.odd?
+      verified_input = game.player_turn(player)
+      update_board(5, verified_input, player)
       display_board
-      p_choice = game.player_turn(@player_one)
-      update_board(5, p_choice, @player_one)
-      display_board
-      return if turn_count >= 3 && game.game_over?(@player_one, @board, @last_piece_played)
+      return player.name if game.game_over?(@board)
 
-      p_choice = game.player_turn(@player_two)
-      update_board(5, p_choice, @player_two)
-      display_board
       turn_count += 1
-      return if turn_count >= 3 && game.game_over?(@player_two, @board, @last_piece_played)
     end
   end
 
-  def update_board(row, valid_input = 1, player)
+  def update_board(row, verified_input, player)
     unless row >= 0
       puts 'Column full!'
       return
     end
 
-    if @board[row][valid_input - 1] == player.symbol
-      row -= 1
-      update_board(row, valid_input, player)
+    if @symbol_array.include?(@board[row][verified_input - 1])
+      update_board(row - 1, verified_input, player)
     else
-      @board[row][valid_input - 1] = player.symbol
-      @last_piece_played = [row, valid_input - 1]
+      @board[row][verified_input - 1] = player.symbol
+      @last_piece_played = [row, verified_input - 1]
     end
   end
 end
 
 board = Board.new
-board.start_game
+player = board.start_game
+puts "winner is #{player}"
