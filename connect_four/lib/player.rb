@@ -1,4 +1,4 @@
-# frozen string literal: true
+# frozen_string_literal: true
 
 # this class handles players variables
 class Player

@@ -6,7 +6,7 @@ require_relative 'game'
 # board class handles all board display
 class Board
   attr_reader :board, :p_choice, :game
-  attr_accessor :payer_one, :player_two, :symbol_array
+  attr_accessor :symbol_array
 
   def initialize
     @board = Array.new(6) { Array.new(7) { '.' } }
