@@ -3,16 +3,14 @@
 require './lib/board'
 
 RSpec.describe Board do
-  let(:player_one) { instance_double(Player) }
-  let(:player_two) { instance_double(Player) }
+  let(:player_one) { double(name: 'Jack', symbol: 'X') }
+  let(:player_two) { double(name: 'Mary', symbol: 'O') }
 
-  before(:each) do
+  before do
     allow(Player).to receive(:new).and_return(player_one, player_two)
-    allow(player_one).to receive(:name).and_return('Jack')
-    allow(player_one).to receive(:symbol).and_return('X')
-    allow(player_two).to receive(:name).and_return('Mary')
-    allow(player_two).to receive(:symbol).and_return('O')
   end
+
+  subject { described_class.new }
 
   describe '#initialize' do
     it 'board has a 7 x 6 grid' do
@@ -28,11 +26,11 @@ RSpec.describe Board do
       expect(player_two).to be_instance_of(Player)
     end
 
-    it "stores the correct name and symbol for each player" do
-      expect(subject.instance_variable_get(:@player_one).name).to eq("Jack")
-      expect(subject.instance_variable_get(:@player_one).symbol).to eq("X")
-      expect(subject.instance_variable_get(:@player_two).name).to eq("Mary")
-      expect(subject.instance_variable_get(:@player_two).symbol).to eq("O")
+    it 'stores the correct name and symbol for each player' do
+      expect(subject.instance_variable_get(:@player_one).name).to eq('Jack')
+      expect(subject.instance_variable_get(:@player_one).symbol).to eq('X')
+      expect(subject.instance_variable_get(:@player_two).name).to eq('Mary')
+      expect(subject.instance_variable_get(:@player_two).symbol).to eq('O')
     end
   end
 
