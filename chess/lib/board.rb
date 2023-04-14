@@ -1,16 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'board'
-require_relative 'pawn'
-require_relative 'rook'
-require_relative 'knight'
-require_relative 'bishop'
-require_relative 'queen'
-require_relative 'king'
-
 # this class handles all board operations
 class Board
-  attr_reader :grid
+  attr_reader :grid, :game
 
   def initialize
     @grid = Array.new(8) { Array.new(8) { '.' } }
@@ -99,43 +91,5 @@ class Board
     row = location[0]
     column = location[1]
     grid[row][column] == '.'
-  end
-
-  def move_piece(piece, location)
-    next_x, next_y = location
-    previous_location = piece.location
-    next_location = [next_x, next_y]
-
-    return unless piece.possible_moves.include?(next_location)
-
-    piece.location = next_location
-    put_piece(next_location, piece)
-    put_piece(previous_location, '.')
-  end
-
-  def make_your_move
-    piece = select_piece
-    destiny = select_destiny
-    move_piece(piece, destiny)
-  end
-
-  # prototypes below
-  def select_piece
-    puts 'Choose a piece location:'
-    print 'Row: '
-    row = gets.chomp.to_i
-    print 'Column: '
-    column = gets.chomp.to_i
-    piece_location = [row, column]
-    piece_at(piece_location)
-  end
-
-  def select_destiny
-    puts 'choose a destiny location:'
-    print 'Row: '
-    row = gets.chomp.to_i
-    print 'Column: '
-    column = gets.chomp.to_i
-    [row, column]
   end
 end

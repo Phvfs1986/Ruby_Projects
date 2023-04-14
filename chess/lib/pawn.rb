@@ -17,7 +17,7 @@ class Pawn < Piece
 
     if location == starting_location
       two_step = [current_x + (forward_move * 2), current_y]
-      moves << two_step if board.empty?(two_step)
+      moves << two_step if board.empty?(two_step) && board.empty?(one_step)
     end
 
     diagonal_left = [current_x + forward_move, current_y + 1]
