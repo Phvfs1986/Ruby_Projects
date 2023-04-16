@@ -70,14 +70,14 @@ class Board
   end
 
   def display_board
-    row_number = 1
+    row_number = 0
     grid.each do |row|
       print row.join(' ')
       print " #{row_number}"
       puts ''
       row_number += 1
     end
-    puts (1..8).to_a.join(' ')
+    puts (0..7).to_a.join(' ')
   end
 
   def in_bounds?(location)
@@ -91,5 +91,9 @@ class Board
     row = location[0]
     column = location[1]
     grid[row][column] == '.'
+  end
+
+  def check?
+
   end
 end
