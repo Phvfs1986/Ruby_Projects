@@ -13,6 +13,6 @@ module Stepable
 
       moves << current_location if board.empty?(current_location) || opponent?(current_location)
     end
-    moves.select { |move| board.in_bounds?(move) }
+    moves
   end
 end

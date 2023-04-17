@@ -93,7 +93,36 @@ class Board
     grid[row][column] == '.'
   end
 
-  def check?
+  # to DO!
+  def check?(player)
+    king_position = pieces.find { |piece| piece.color != player.color && piece.is_a?(King) }.location
+    pieces.select { |piece| piece.color == player.color }.each do |piece|
+      puts 'Check!' if piece.possible_moves.include?(king_position)
+    end
+  end
 
+  # to DO!
+  def check_mate?(player)
+    king = pieces.find { |piece| piece.color != player.color && piece.is_a?(King) }
+    enemy_moves = []
+    pieces.select { |piece| piece.color == player.color }.each do |piece|
+      enemy_moves << piece.possible_moves
+    end
+    if king.possible_moves.all? { |move| enemy_moves.flatten(1).include?(move) }
+      puts 'Check-mate!'
+      return true unless king.possible_moves == []
+    end
+    false
+  end
+
+  # to DO!
+  def pieces
+    grid.flatten.reject { |piece| piece == '.' || piece.nil? }
+  end
+
+  # to DO!
+  def select_color(color)
+    all_pieces = pieces
+    all_pieces.flatten.select { |piece| piece.color == color }
   end
 end

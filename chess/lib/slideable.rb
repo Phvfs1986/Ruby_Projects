@@ -10,13 +10,14 @@ module Slideable
         current_x += x
         current_y += y
         current_location = [current_x, current_y]
-        break unless board.in_bounds?(current_location) && board.empty?(current_location)
+        break unless board.in_bounds?(current_location)
 
         moves << current_location if board.empty?(current_location)
         if opponent?(current_location)
           moves << current_location
           break
         end
+        break if !board.empty?(current_location) && !opponent?(current_location)
       end
     end
     moves

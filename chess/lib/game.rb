@@ -19,8 +19,11 @@ class Game
       board.display_board
       player = turn_order
       make_your_move(player)
+      board.check?(player)
+      return if board.check_mate?(player)
+
       @turn_count += 1
-    end 
+    end
   end
 
   def turn_order
@@ -50,8 +53,9 @@ class Game
       puts "#{player.name} Select a destiny location:"
       row, column = row_and_column
 
-      return [row, column] if piece.possible_moves.include?([row, column]) &&
-                              (board.empty?([row, column]) || piece.opponent?([row, column]))
+      if piece.possible_moves.include?([row, column]) && (board.empty?([row, column]) || piece.opponent?([row, column]))
+        return [row, column]
+      end
 
       puts 'You must select a valid location'
     end

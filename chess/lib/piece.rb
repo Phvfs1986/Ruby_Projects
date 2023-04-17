@@ -16,6 +16,6 @@ class Piece
   end
 
   def opponent?(location)
-    board.piece_at(location) != '.' && board.piece_at(location).color != color
+    board.piece_at(location) != '.' && !board.piece_at(location).nil? && board.piece_at(location).color != color
   end
 end
