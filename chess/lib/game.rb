@@ -1,33 +1,25 @@
 # frozen_string_literal: true
 
+# controls all game logic
 class Game
-  attr_reader :player_one, :player_two, :board
-  attr_accessor :turn_count
+  attr_accessor :player_one, :player_two, :players, :board
 
   def initialize(board, player_one, player_two)
     @board = board
     @player_one = player_one
     @player_two = player_two
+    @players = [player_one, player_two]
   end
 
   def start_game
-    @turn_count = 0
-    puts "#{@player_one.name} color is White"
-    puts "#{@player_two.name} color is Black"
     loop do
-      system 'clear'
       board.display_board
-      player = turn_order
-      make_your_move(player)
-      board.check?(player)
-      return if board.check_mate?(player)
+      make_your_move(players.first)
+      board.check?(players.last)
+      return if board.check_mate?(players.first)
 
-      @turn_count += 1
+      players.rotate!
     end
-  end
-
-  def turn_order
-    @turn_count.even? ? @player_one : @player_two
   end
 
   def make_your_move(player)
@@ -39,7 +31,7 @@ class Game
 
   def select_piece(player)
     loop do
-      puts "#{player.name} Select a piece:"
+      puts "#{player.color} Select a piece:"
       row, column = row_and_column
 
       return [row, column] if valid_piece?(row, column, player.color)
@@ -50,7 +42,7 @@ class Game
 
   def select_destination(player, piece)
     loop do
-      puts "#{player.name} Select a destiny location:"
+      puts "#{player.color} Select a destiny location:"
       row, column = row_and_column
 
       if piece.possible_moves.include?([row, column]) && (board.empty?([row, column]) || piece.opponent?([row, column]))

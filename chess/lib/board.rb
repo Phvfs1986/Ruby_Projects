@@ -2,7 +2,7 @@
 
 # this class handles all board operations
 class Board
-  attr_reader :grid, :game
+  attr_accessor :grid
 
   def initialize
     @grid = Array.new(8) { Array.new(8) { '.' } }
@@ -108,9 +108,9 @@ class Board
     pieces.select { |piece| piece.color == player.color }.each do |piece|
       enemy_moves << piece.possible_moves
     end
-    if king.possible_moves.all? { |move| enemy_moves.flatten(1).include?(move) }
+    if king.possible_moves.all? { |move| enemy_moves.flatten(1).include?(move) } && !king.possible_moves == []
       puts 'Check-mate!'
-      return true unless king.possible_moves == []
+      return true
     end
     false
   end
@@ -118,11 +118,5 @@ class Board
   # to DO!
   def pieces
     grid.flatten.reject { |piece| piece == '.' || piece.nil? }
-  end
-
-  # to DO!
-  def select_color(color)
-    all_pieces = pieces
-    all_pieces.flatten.select { |piece| piece.color == color }
   end
 end

@@ -3,7 +3,7 @@
 require_relative 'slideable'
 require_relative 'stepable'
 
-# parent of all pieces
+# parent class of all pieces
 class Piece
   attr_reader :color, :board, :starting_location
   attr_accessor :location
