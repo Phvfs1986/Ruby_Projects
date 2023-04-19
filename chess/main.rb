@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require_relative './lib/board'
-require_relative './lib/player'
-require_relative './lib/game'
-require_relative './lib/piece'
-require_relative './lib/pieces'
+require 'byebug'
+
+require_relative './lib/Pieces/base'
+
+Dir['./lib/*.rb'].uniq.each { |file| require_relative file }
+Dir['./lib/Pieces/*.rb'].uniq.each { |file| require_relative file }
+
 
 board = Board.set_board
 

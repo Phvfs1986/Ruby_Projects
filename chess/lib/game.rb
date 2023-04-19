@@ -14,8 +14,8 @@ class Game
   def start_game
     loop do
       board.display_board
-      make_your_move(players.first)
-      board.check?(players.last)
+      piece = make_your_move(players.first)
+      board.check?(players.first, piece)
       return if board.check_mate?(players.first)
 
       players.rotate!
@@ -27,6 +27,7 @@ class Game
     piece = board.piece_at(start_pos)
     end_pos = select_destination(player, piece)
     move_piece(start_pos, end_pos, piece)
+    piece
   end
 
   def select_piece(player)
