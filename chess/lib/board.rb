@@ -96,22 +96,8 @@ class Board
 
   # to DO!
   def check?(player, piece)
-    king_position = pieces.find { |piece| piece.color != player.color && piece.is_a?(Pieces::King) }.location
+    king_position = pieces.find { |current| current.color != player.color && current.is_a?(Pieces::King) }.location
     puts 'Check!' if piece.possible_moves.include?(king_position)
-  end
-
-  # to DO!
-  def check_mate_?(player)
-    king = pieces.find { |piece| piece.color != player.color && piece.is_a?(Pieces::King) }
-    enemy_moves = []
-    pieces.select { |piece| piece.color == player.color }.each do |piece|
-      enemy_moves << piece.possible_moves
-    end
-    if king.possible_moves.all? { |move| enemy_moves.flatten(1).include?(move) } && !king.possible_moves == []
-      puts 'Check-mate!'
-      return true
-    end
-    false
   end
 
   def check_mate?(player)
@@ -121,12 +107,8 @@ class Board
     pieces.each do |piece|
       next if piece == '.'
 
-      byebug if piece.is_a?(Pieces::Pawn)
-      piece.possible_moves.each { |pm| king_possible_moves.delete(pm) }
+      piece.possible_moves.each { |pm| king_possible_moves.delete(pm) } if piece.color == player.color
     end
-
-    puts "*" * 300
-    puts king_possible_moves.inspect
 
     king_possible_moves.empty?
   end
