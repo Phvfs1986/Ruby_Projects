@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# this is the board
+# this is the board class
 class Board
   def initialize
     @board = [
