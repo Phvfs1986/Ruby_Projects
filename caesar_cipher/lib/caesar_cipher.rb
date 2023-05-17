@@ -2,24 +2,39 @@
 
 # cipher class
 class Cipher
+  attr_reader :string, :shift
   attr_accessor :encoded
 
-  def initialize
+  def initialize(string, shift)
     @encoded = ''
+    @string = string
+    @shift = shift.to_i
+    caesar_cipher
   end
 
-  def caesar_cipher(string, shift)
-    letters = string.split(//)
-    letters.each do |letter|
+  def caesar_cipher
+    string.each_char do |letter|
       @encoded += case letter
                   when /[a-z]/
-                    (((letter.ord + shift - 97) % 26) + 97).chr
+                    shift_character(letter, 97)
                   when /[A-Z]/
-                    (((letter.ord + shift - 65) % 26) + 65).chr
+                    shift_character(letter, 65)
                   else
                     letter
                   end
     end
-    @encoded
+  end
+
+  def shift_character(char, ascii_value)
+    (((char.ord + @shift - ascii_value) % 26) + ascii_value).chr
   end
 end
+
+puts 'Enter text to encode:'
+to_encode = gets.chomp
+puts 'Enter shift factor:'
+shift_factor = gets.chomp
+
+cipher = Cipher.new(to_encode, shift_factor)
+
+puts cipher.encoded

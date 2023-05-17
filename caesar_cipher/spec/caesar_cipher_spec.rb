@@ -1,29 +1,30 @@
 # frozen_string_literal: true
 
-require './lib/caesar_cipher'
+require_relative '../lib/caesar_cipher'
 
-describe Cipher do
-  subject { Cipher.new }
+RSpec.describe Cipher do
+  describe '#initialize' do
+    it 'sets the string and shift values' do
+      cipher = Cipher.new('Hello, World!', 3)
+      expect(cipher.string).to eq('Hello, World!')
+      expect(cipher.shift).to eq(3)
+    end
+  end
 
   describe '#caesar_cipher' do
-    it 'Returns the correct rotation' do
-      expect(subject.caesar_cipher('harry', 5)).to eql 'mfwwd'
+    it 'returns lowercase correctly' do
+      cipher = Cipher.new('hello', 2)
+      expect(cipher.encoded).to eq('jgnnq')
     end
 
-    it 'returns upper/lower cases' do
-      expect(subject.caesar_cipher('HARRY', 5)).to eql 'MFWWD'
+    it 'returns uppercase correctly' do
+      cipher = Cipher.new('WORLD', 4)
+      expect(cipher.encoded).to eq('ASVPH')
     end
 
-    it 'returns only spaces' do
-      expect(subject.caesar_cipher('     ', 5)).to eql '     '
-    end
-
-    it 'returns combination of upper + lower cases' do
-      expect(subject.caesar_cipher('HaRrY', 5)).to eql 'MfWwD'
-    end
-
-    it 'returns letters + numbers combination' do
-      expect(subject.caesar_cipher('harry123', 5)).to eql 'mfwwd123'
+    it 'returns non-alphabetic characters unchanged' do
+      cipher = Cipher.new('Hello, World!', 3)
+      expect(cipher.encoded).to eq('Khoor, Zruog!')
     end
   end
 end
