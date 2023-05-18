@@ -5,11 +5,25 @@ class Cipher
   attr_reader :string, :shift
   attr_accessor :encoded
 
-  def initialize(string, shift)
+  def initialize
     @encoded = ''
-    @string = string
-    @shift = shift.to_i
+    @string = ''
+    @shift = 0
+    start
+  end
+
+  def start
+    take_input
     caesar_cipher
+    print 'Encoded message: '
+    puts @encoded
+  end
+
+  def take_input
+    print 'Enter text to encode: '
+    @string = gets.chomp
+    print 'Enter shift factor: '
+    @shift = gets.chomp.to_i
   end
 
   def caesar_cipher
@@ -30,11 +44,4 @@ class Cipher
   end
 end
 
-puts 'Enter text to encode:'
-to_encode = gets.chomp
-puts 'Enter shift factor:'
-shift_factor = gets.chomp
-
-cipher = Cipher.new(to_encode, shift_factor)
-
-puts cipher.encoded
+Cipher.new
