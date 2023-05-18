@@ -43,5 +43,3 @@ class Cipher
     (((char.ord + @shift - ascii_value) % 26) + ascii_value).chr
   end
 end
-
-Cipher.new
